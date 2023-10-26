@@ -91,29 +91,6 @@ namespace KeqingNiuza.View
 
         public Func<double, string> YSectionFormatter => value => value.ToString("P4");
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var count = (int)NumericUpDown.Value;
-            var index = ComboBox.SelectedIndex;
-            await Task.Run(() =>
-            {
-                switch (index)
-                {
-                    case 0:
-                        Value = new ChartValues<double>(Prediction.GetCharacterDensityAndDistributionWithUp(count).distribution.Prepend(0));
-                        break;
-                    case 1:
-                        Value = new ChartValues<double>(Prediction.GetCharacterDensityAndDistribution(count).distribution.Prepend(0));
-                        break;
-                    case 2:
-                        Value = new ChartValues<double>(Prediction.GetSpecifiedWeaponDensityAndDistribution(count).distribution.Prepend(0));
-                        break;
-                    case 3:
-                        Value = new ChartValues<double>(Prediction.GetWeaponDensityAndDistribution(count).distribution.Prepend(0));
-                        break;
-                }
-            });
-        }
 
 
         private void CartesianChart_MouseMove(object sender, MouseEventArgs e)

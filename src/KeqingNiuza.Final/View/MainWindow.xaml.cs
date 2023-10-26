@@ -8,7 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using HandyControl.Controls;
 using HandyControl.Tools.Extension;
-using KeqingNiuza.Model;
 using KeqingNiuza.Service;
 using KeqingNiuza.ViewModel;
 using static KeqingNiuza.Service.Const;
@@ -28,7 +27,6 @@ namespace KeqingNiuza.View
             InitializeComponent();
             ViewModel = new MainWindowViewModel();
             DataContext = ViewModel;
-            ViewModel.GotWishlogUrl += _proxyService_GotWishlogUrl;
         }
 
 
@@ -48,20 +46,10 @@ namespace KeqingNiuza.View
             {
                 WindowState = WindowState.Maximized;
             }
-            InitSideMenuChecked();
-        }
-
-        private void InitSideMenuChecked()
-        {
-            if (ViewModel.ViewContent is WishSummaryView)
-            {
-                SideMenu_WishSummaryView.IsChecked = true;
-            }
         }
 
         private void Window_Main_Closed(object sender, EventArgs e)
         {
-            ViewModel.SaveConfig();
             Properties.Settings.Default.IsWindowMaximized = WindowState == WindowState.Maximized;
         }
 
@@ -90,104 +78,11 @@ namespace KeqingNiuza.View
             }
         }
 
-        private void Button_Uid_Click(object sender, RoutedEventArgs e)
-        {
-            Popup_Uid.IsOpen = true;
-        }
-
-        private async void Button_Cloud_Click(object sender, RoutedEventArgs e)
-        {
-            if (ViewModel.CloudClient == null)
-            {
-                var client = await Dialog.Show(new CloudLoginDialog()).Initialize<CloudLoginDialog>(x => { }).GetResultAsync<KeqingNiuza.Core.CloudBackup.CloudClient>();
-                if (client != null)
-                {
-                    ViewModel.CloudClient = client;
-                    Popup_Cloud.IsOpen = true;
-                    Growl.Success("登录成功");
-                }
-            }
-            else
-            {
-                Popup_Cloud.IsOpen = true;
-            }
-        }
-
-        private void Button_Logout_Click(object sender, RoutedEventArgs e)
-        {
-            if (File.Exists($"{UserDataPath}\\Account"))
-            {
-                File.Delete($"{UserDataPath}\\Account");
-            }
-            ViewModel.CloudClient = null;
-            Popup_Cloud.IsOpen = false;
-            Growl.Success("已删除保存的账号和密码");
-        }
-
-
-        private async void Button_Load_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.IsLoadIdle = false;
-            await ViewModel.UpdateWishData();
-            //Button_LoadAll.IsEnabled = true;
-            //Button_Load.IsEnabled = true;
-        }
-
-
-        private async void Button_LoadAll_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.IsLoadIdle = false;
-            await ViewModel.UpdateWishData(true);
-        }
-        private async void _proxyService_GotWishlogUrl(object sender, string url)
-        {
-            await ViewModel.StopProxy();
-            await Dispatcher.BeginInvoke(new Action(async () =>
-            {
-                await ViewModel.OnCaptured(url);
-            }));
-        }
-        private async void Button_StopProxy_Click(object sender, RoutedEventArgs e)
-        {
-            if(await ViewModel.StopProxy()) ViewModel.IsLoadIdle = true;
-        }
-        private void Button_Export_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.ExportExcelFile();
-        }
-
-
-        private async void Button_Backup_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Backup.IsEnabled = false;
-            await ViewModel.CloudBackupFileArchive();
-            Button_Backup.IsEnabled = true;
-        }
-
-        private async void Button_Restore_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Restore.IsEnabled = false;
-            await ViewModel.CloudRestoreFileArchive();
-            Button_Restore.IsEnabled = true;
-        }
-
         private void RadioButton_SideMenu_Click(object sender, RoutedEventArgs e)
         {
             var radioButton = sender as RadioButton;
             var tag = radioButton.Tag as string;
             ViewModel.ChangeViewContent(tag);
-        }
-
-
-        private async void Ellipse_Avatar_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Popup_Uid.IsOpen = false;
-            await ViewModel.ChangeAvatar();
-        }
-
-        private void Button_ChangeUid_Click(object sender, RoutedEventArgs e)
-        {
-            Grid_UserData.Visibility = Visibility.Visible;
         }
 
         private void Window_Main_StateChanged(object sender, EventArgs e)
@@ -208,65 +103,6 @@ namespace KeqingNiuza.View
             }
         }
 
-        private void ListView_UserData_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (ListView_UserData.SelectedItem == null)
-            {
-                return;
-            }
-            ViewModel.ChangeUid(ListView_UserData.SelectedItem);
-            Popup_Uid.IsOpen = false;
-        }
-
-        private void Popup_Uid_Closed(object sender, EventArgs e)
-        {
-            Grid_UserData.Visibility = Visibility.Collapsed;
-            if(ViewModel.IsLoadIdle) ViewModel.LoadWishDataProgress = null;
-        }
-
-        private void Button_AddUid_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.AddNewUid();
-            Grid_UserData.Visibility = Visibility.Collapsed;
-        }
-
-        private async void Button_DeleteUid_Click(object sender, RoutedEventArgs e)
-        {
-            var userData = (sender as Button).DataContext as UserData;
-            if (userData == null)
-            {
-                return;
-            }
-            Popup_Uid.IsOpen = false;
-            var result = await Dialog.Show(new DeleteUidDialog(userData.Uid)).Initialize<DeleteUidDialog>(x => { }).GetResultAsync<bool>();
-            if (result)
-            {
-                ViewModel.UserDataList.Remove(userData);
-                if (ViewModel.SelectedUserData == userData)
-                {
-                    if (ViewModel.UserDataList.Any())
-                    {
-                        ViewModel.SelectedUserData = ViewModel.UserDataList.First();
-                    }
-                    else
-                    {
-                        ViewModel.SelectedUserData = null;
-                        if (File.Exists($"{UserDataPath}\\Config.json"))
-                        {
-                            File.Delete($"{UserDataPath}\\Config.json");
-                        }
-                    }
-                }
-                ViewModel.SaveConfig();
-                if (File.Exists(userData.WishLogFile))
-                {
-                    File.Delete(userData.WishLogFile);
-                }
-                ViewModel.ReloadViewContent();
-                await Task.Delay(1000);
-                Growl.Success($"Uid:{userData.Uid}已删除");
-            }
-        }
 
         private void SideMenu_Manual_Click(object sender, RoutedEventArgs e)
         {
@@ -280,7 +116,6 @@ namespace KeqingNiuza.View
                 Growl.Warning(ex.Message);
             }
         }
-
 
     }
 }

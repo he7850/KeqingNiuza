@@ -20,92 +20,9 @@
     <Grid>
         <hc:ScrollViewer IsInertiaEnabled="True">
             <StackPanel Margin="30,20,0,0">
-
-                <TextBlock Margin="0,0,0,0"
-                           FontSize="20"
-                           Text="任务提醒" />
-                <TextBlock Margin="0,6,0,0"
-                           Foreground="Gray"
-                           Text="更改此设置需要管理员权限" />
-                <TextBlock Margin="0,4,0,0"
-                           Foreground="Gray"
-                           Text="开始游戏前提醒需要启用「审核进程跟踪」" />
-                <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                    <TextBlock Width="120"
-                               VerticalAlignment="Center"
-                               Text="开机后一分钟提醒" />
-                    <ToggleButton Margin="10,0,0,0"
-                                  IsChecked="{Binding IsLogonTrigger}"
-                                  Style="{StaticResource ToggleButtonSwitch}" />
-                </StackPanel>
-                <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                    <TextBlock Width="120"
-                               VerticalAlignment="Center"
-                               Text="开始游戏前提醒" />
-                    <ToggleButton Margin="10,0,0,0"
-                                  IsChecked="{Binding IsGenshinStartTrigger}"
-                                  Style="{StaticResource ToggleButtonSwitch}" />
-                </StackPanel>
-
-                <TextBlock Margin="0,20,0,0"
-                           FontSize="20"
-                           Text="服务器区域" />
-                <TextBlock Margin="0,6,0,0"
-                           Foreground="Gray"
-                           Text="外服支持没有经过测试，可能会出现各种奇怪的Bug" />
-                <TextBlock Margin="0,4,0,0"
-                           Foreground="Gray"
-                           Text="请确保游戏内使用简体中文" />
-                <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                    <TextBlock Width="120"
-                               VerticalAlignment="Center"
-                               Text="外服" />
-                    <ToggleButton Margin="10,0,0,0"
-                                  IsChecked="{Binding IsOversea}"
-                                  Style="{StaticResource ToggleButtonSwitch}" />
-                </StackPanel>
-
-                <StackPanel>
-                    <TextBlock Margin="0,20,0,0"
-                               FontSize="20"
-                               Text="米游社签到" />
-                    <TextBlock Margin="0,4,0,0"
-                               Foreground="Gray"
-                               Text="如果出现拒绝访问，请尝试使用管理员权限" />
-                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                        <TextBlock Width="120"
-                                   VerticalAlignment="Center"
-                                   Text="自动签到" />
-                        <ToggleButton Margin="10,0,0,0"
-                                      IsChecked="{Binding DailyCheck_IsAutoCheckIn}"
-                                      Style="{StaticResource ToggleButtonSwitch}" />
-                    </StackPanel>
-                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                        <TextBlock Width="120"
-                                   VerticalAlignment="Center"
-                                   Text="始终显示结果" />
-                        <ToggleButton Margin="10,0,0,0"
-                                      IsChecked="{Binding DialyCheck_AlwaysShowResult}"
-                                      Style="{StaticResource ToggleButtonSwitch}" />
-                    </StackPanel>
-                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                        <TextBlock Width="120"
-                                   VerticalAlignment="Center"
-                                   Text="签到时间" />
-                        <TextBox Margin="10,0,0,0" Text="{Binding DailyCheck_StartTime, Converter={StaticResource DailyCheckStartTimeConverter}}" />
-                    </StackPanel>
-                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                        <TextBlock Width="120"
-                                   VerticalAlignment="Center"
-                                   Text="随机延迟" />
-                        <TextBox Margin="10,0,0,0" Text="{Binding DailyCheck_RandomDelay}" />
-                    </StackPanel>
-                    <Button x:Name="Button_DailyCheckSave"
-                            Margin="0,10,0,0"
-                            HorizontalAlignment="Left"
-                            Click="Button_DailyCheckSave_Click"
-                            Content="保存" />
-                </StackPanel>
+                <StackPanel Margin="0,10,0,0" Orientation="Horizontal"/>
+                <StackPanel Margin="0,10,0,0" Orientation="Horizontal"/>
+                <StackPanel Margin="0,10,0,0" Orientation="Horizontal"/>
 
                 <StackPanel Visibility="Collapsed">
                     <TextBlock Margin="0,20,0,0"

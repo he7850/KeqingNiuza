@@ -19,48 +19,10 @@ namespace KeqingNiuza.ViewModel
 
         public WishSummaryViewModel(UserData userData)
         {
-            UserData = userData;
-            WishDataList = MainWindowViewModel.WishDataList;
-            WishSummary = WishSummary.Create(WishDataList, IgnoreFirstStar5Character, IgnoreFirstStar5Weapon, IgnoreFirstStar5Permanent);
-            CharacterOrder("星级");
-            WeaponOrder("星级");
-            if (!IsCorrectOrder)
-            {
-                if (WishSummary.CharacterStatistics != null)
-                {
-                    WishSummary.CharacterStatistics.Star5List.Reverse();
-                    WishSummary.CharacterStatistics.Star4List.Reverse();
-                }
-
-                if (WishSummary.WeaponStatistics != null)
-                {
-                    WishSummary.WeaponStatistics.Star5List.Reverse();
-                    WishSummary.WeaponStatistics.Star4List.Reverse();
-                }
-
-                if (WishSummary.PermanentStatistics != null)
-                {
-                    WishSummary.PermanentStatistics.Star5List.Reverse();
-                    WishSummary.PermanentStatistics.Star4List.Reverse();
-                }
-            }
         }
 
         public WishSummaryViewModel()
         {
-            WishDataList = MainWindowViewModel.WishDataList;
-            WishSummary = WishSummary.Create(WishDataList);
-            CharacterOrder("星级");
-            WeaponOrder("星级");
-            if (!IsCorrectOrder)
-            {
-                WishSummary.CharacterStatistics.Star5List.Reverse();
-                WishSummary.CharacterStatistics.Star4List.Reverse();
-                WishSummary.WeaponStatistics.Star5List.Reverse();
-                WishSummary.WeaponStatistics.Star4List.Reverse();
-                WishSummary.PermanentStatistics.Star5List.Reverse();
-                WishSummary.PermanentStatistics.Star4List.Reverse();
-            }
         }
 
         public UserData UserData { get; set; }
@@ -215,43 +177,5 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
-
-        public void ShowDetailView(string type)
-        {
-            if (type == "Character")
-            {
-                var view = new WishItemDetailView(CharacterInfoList);
-                view.BackEvent += DetailContent_BackEvent;
-                DetailContent = view;
-            }
-            if (type == "Weapon")
-            {
-                var view = new WishItemDetailView(WeaponInfoList);
-                view.BackEvent += DetailContent_BackEvent;
-                DetailContent = view;
-            }
-        }
-
-        public void ShowDetailView(object dataContext)
-        {
-            var info = dataContext as ItemInfo;
-            if (info.ItemType == "角色")
-            {
-                var view = new WishItemDetailView(CharacterInfoList, info);
-                view.BackEvent += DetailContent_BackEvent;
-                DetailContent = view;
-            }
-            if (info.ItemType == "武器")
-            {
-                var view = new WishItemDetailView(WeaponInfoList, info);
-                view.BackEvent += DetailContent_BackEvent;
-                DetailContent = view;
-            }
-        }
-
-        private void DetailContent_BackEvent(object sender, EventArgs e)
-        {
-            DetailContent = null;
-        }
     }
 }

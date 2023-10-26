@@ -1,4 +1,4 @@
-﻿using KeqingNiuza.Model;
+﻿
 using KeqingNiuza.Service;
 using KeqingNiuza.View;
 using System;
@@ -14,22 +14,13 @@ namespace KeqingNiuza
     {
 
 
-        protected override async void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
             Environment.CurrentDirectory = AppContext.BaseDirectory;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             if (e.Args.Length != 0)
             {
-                if (e.Args[0] == "--schedule-task")
-                {
-                    await Task.Delay(2000);
-                    ScheduleTask.SendNotification();
-                }
-                if (e.Args[0] == "--daily-check")
-                {
-                    await DailyCheckTask.CheckIn();
-                }
                 Shutdown();
             }
             else

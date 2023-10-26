@@ -16,7 +16,6 @@ namespace KeqingNiuza.Core.Wish
         }
 
 
-        private ExcelPackage ExcelPackage;
         private ExcelRange characterCells;
         private ExcelRange weaponCells;
         private ExcelRange permanentCells;
@@ -78,7 +77,7 @@ namespace KeqingNiuza.Core.Wish
                     }
                     CharacterList.Add(data);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     // 读取到没有数据的行时，会发生错误，使用break跳出循环
                     break;
@@ -118,7 +117,7 @@ namespace KeqingNiuza.Core.Wish
                     }
                     WeaponList.Add(data);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     break;
                 }
@@ -157,7 +156,7 @@ namespace KeqingNiuza.Core.Wish
                     }
                     PermanentList.Add(data);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     break;
                 }
@@ -196,7 +195,7 @@ namespace KeqingNiuza.Core.Wish
                     }
                     NoviceList.Add(data);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     break;
                 }

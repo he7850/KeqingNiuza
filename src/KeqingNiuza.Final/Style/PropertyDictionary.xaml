@@ -41,19 +41,12 @@
     <SolidColorBrush x:Key="Star3">#5F9CB8</SolidColorBrush>
     <SolidColorBrush x:Key="ContentViewBackground">#F3F3F3</SolidColorBrush>
 
-    <c:UidConverter x:Key="UidConverter" />
-    <c:WishTypeConverter x:Key="WishTypeConverter" />
     <c:ImageConverter x:Key="ImageConverter" />
     <c:MilliSecondToTimeConverter x:Key="MilliSecondToTimeConverter" />
     <c:TimeSpanToSliderValueConverter x:Key="TimeSpanToSliderValueConverter" />
     <c:NoteLevelToNoteStringConverter x:Key="NoteLevelToNoteStringConverter" />
     <c:NoteNumberToNoteStringConverter x:Key="NoteNumberToNoteStringConverter" />
     <c:ReVisibilityConverter x:Key="ReVisibilityConverter" />
-    <c:ItemDetailRank5Converter x:Key="ItemDetailRank5Converter" />
-    <c:ItemDetailRank4Converter x:Key="ItemDetailRank4Converter" />
-    <c:ItemDetailRank3Converter x:Key="ItemDetailRank3Converter" />
-    <c:ProbabilityConverter x:Key="ProbabilityConverter" />
-    <c:DailyCheckStartTimeConverter x:Key="DailyCheckStartTimeConverter"/>
 
 
     <PathGeometry x:Key="Summary" Figures="M561.834 1024L30.208 805.937A30.593 30.593 0 0 1 8.98 762.324a29.631 29.631 0 0 1 42.522-21.742l517.452 218.063 517.452-218.063a58.107 58.107 0 0 1 56.696 21.742 32.581 32.581 0 0 1-21.229 43.613L590.246 1024z m-7.055-283.098L23.153 522.84A44.895 44.895 0 0 1 1.86 472.043a42.971 42.971 0 0 1 49.641-21.806L568.953 668.3l524.507-210.56a31.427 31.427 0 0 1 42.522 21.807 32.517 32.517 0 0 1-21.23 43.549L583.128 741.159z m-14.174-225.054L44.446 326.903a71.448 71.448 0 0 1 0-130.71L540.605 7.247C547.724 0 554.779 0 568.953 0s21.293 0 28.348 7.247l496.159 188.69a71.448 71.448 0 0 1 0 130.71L597.3 515.591c-7.055 7.247-14.11 7.247-28.348 7.247s-21.23 0.192-28.348-7.055zM72.795 261.612l496.158 188.881 496.158-188.881L568.953 72.666z" />

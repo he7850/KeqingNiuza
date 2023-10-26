@@ -53,11 +53,6 @@ namespace KeqingNiuza.View
 
         // 时间相对偏移量(ms)，正数为快进，负数为快退
         private long _releativeTime;
-
-        private List<NoteInfo> _noteList;
-
-        private Queue<NoteInfo> _noteQueue;
-
         private List<RecordingKey> _keys;
 
         private bool _IsFindGenshinWindow;
