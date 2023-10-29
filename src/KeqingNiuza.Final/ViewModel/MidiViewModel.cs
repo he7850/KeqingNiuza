@@ -193,8 +193,10 @@ namespace KeqingNiuza.ViewModel
             get { return MidiPlayer.Speed; }
             set
             {
+                TimeSpan tmpCurrentTime = CurrentTime;
                 MidiPlayer.Speed = value;
                 timer.Interval = 1000 / value;
+                CurrentTime = tmpCurrentTime;
                 OnPropertyChanged();
             }
         }
