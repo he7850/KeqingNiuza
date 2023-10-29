@@ -123,11 +123,11 @@
                                       Grid.Column="1"
                                       Width="70"
                                       HorizontalAlignment="Left"
-                                      DecimalPlaces="1"
+                                      DecimalPlaces="2"
                                       FontSize="12"
-                                      Increment="0.1"
-                                      IsEnabled="{Binding IsPlaying, Converter={StaticResource Boolean2BooleanReConverter}}"
+                                      Increment="0.02"
                                       Value="{Binding Speed, UpdateSourceTrigger=PropertyChanged}" />
+                                      <!--IsEnabled="{Binding IsPlaying, Converter={StaticResource Boolean2BooleanReConverter}}"-->
                     <TextBlock Grid.Row="3"
                                Grid.Column="0"
                                VerticalAlignment="Center"
@@ -329,9 +329,9 @@
             </Grid>
 
             <StackPanel Grid.Column="2" Margin="20" VerticalAlignment="Center">
-                <TextBlock Margin="2" VerticalAlignment="Center" Text="播放/暂停：Ctrl + Shift + G" />
-                <TextBlock Margin="2" VerticalAlignment="Center" Text="上一首：Ctrl + Shift + ←" />
-                <TextBlock Margin="2" VerticalAlignment="Center" Text="下一首：Ctrl + Shift + →" />
+                <TextBlock Margin="2" VerticalAlignment="Center" Text="播放/暂停：Ctrl + Shift + Enter" />
+                <TextBlock Margin="2" VerticalAlignment="Center" Text="上一首：Ctrl + Shift + &lt;" />
+                <TextBlock Margin="2" VerticalAlignment="Center" Text="下一首：Ctrl + Shift + &gt;" />
             </StackPanel>
 
         </Grid>

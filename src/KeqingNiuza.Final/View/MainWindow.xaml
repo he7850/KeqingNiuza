@@ -90,6 +90,21 @@
                                    Text="关于" />
                     </StackPanel>
                 </RadioButton>
+                <RadioButton x:Name="SideMenu_ReloadView"
+                             Click="RadioButton_Reload_Click"
+                             GroupName="SideMenu"
+                             Style="{StaticResource SideMenuRadioButton}"
+                             Tag="ReloadView">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   FontFamily="{StaticResource IconFamily}"
+                                   FontSize="16"
+                                   Text="{StaticResource Update}" />
+                        <TextBlock Margin="10,0,0,0"
+                                   FontSize="12"
+                                   Text="重载" />
+                    </StackPanel>
+                </RadioButton>
             </StackPanel>
 
             <StackPanel>

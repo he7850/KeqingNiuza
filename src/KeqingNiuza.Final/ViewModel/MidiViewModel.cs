@@ -22,8 +22,10 @@ namespace KeqingNiuza.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
         private ObservableCollection<MidiFileInfo> _MidiFileInfoList;
+        /// <summary>
+        /// midi文件信息列表
+        /// </summary>
         public ObservableCollection<MidiFileInfo> MidiFileInfoList
         {
             get { return _MidiFileInfoList; }
@@ -34,8 +36,10 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
-
         private MidiFileInfo _SelectedMidiFile;
+        /// <summary>
+        /// 已选中midi文件
+        /// </summary>
         public MidiFileInfo SelectedMidiFile
         {
             get { return _SelectedMidiFile; }
@@ -46,8 +50,10 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
-
         private bool _IsAdmin;
+        /// <summary>
+        /// 是否已开启管理员权限
+        /// </summary>
         public bool IsAdmin
         {
             get { return _IsAdmin; }
@@ -58,8 +64,11 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
-
+ 
         private bool _CanPlay;
+        /// <summary>
+        /// 是否可以演奏
+        /// </summary>
         public bool CanPlay
         {
             get { return _CanPlay; }
@@ -71,8 +80,11 @@ namespace KeqingNiuza.ViewModel
         }
 
         #region ControlProperties
-
+        
         private string _StateText;
+        /// <summary>
+        /// midi演奏器状态文本
+        /// </summary>
         public string StateText
         {
             get { return _StateText; }
@@ -83,9 +95,11 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
-
-
+        
         private string _Button_Restart_Content;
+        /// <summary>
+        /// 重启按钮文本
+        /// </summary>
         public string Button_Restart_Content
         {
             get { return _Button_Restart_Content; }
@@ -96,9 +110,11 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
-
-
+        
         private string _TextBlock_Color;
+        /// <summary>
+        /// 重启按钮文本颜色
+        /// </summary>
         public string TextBlock_Color
         {
             get { return _TextBlock_Color; }
@@ -109,8 +125,11 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
-
+        
         private string _Tooltip_Content;
+        /// <summary>
+        /// 建议文本
+        /// </summary>
         public string Tooltip_Content
         {
             get { return _Tooltip_Content; }
@@ -120,12 +139,16 @@ namespace KeqingNiuza.ViewModel
                 OnPropertyChanged();
             }
         }
-
         #endregion
 
+        /// <summary>
+        /// midi演奏器当前曲名
+        /// </summary>
         public string Name => MidiPlayer.Name;
 
-
+        /// <summary>
+        /// 是否正在演奏
+        /// </summary>
         public bool IsPlaying
         {
             get { return MidiPlayer?.IsPlaying ?? false; }
@@ -136,7 +159,9 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
-
+        /// <summary>
+        /// 是否自动切换到原神窗口
+        /// </summary>
         public bool AutoSwitchToGenshinWindow
         {
             get { return MidiPlayer.AutoSwitchToGenshinWindow; }
@@ -147,7 +172,9 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
-
+        /// <summary>
+        /// 是否在后台演奏
+        /// </summary>
         public bool PlayBackground
         {
             get { return MidiPlayer.PlayBackground; }
@@ -158,6 +185,9 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
+        /// <summary>
+        /// 演奏速度
+        /// </summary>
         public double Speed
         {
             get { return MidiPlayer.Speed; }
@@ -169,6 +199,9 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
+        /// <summary>
+        /// 升降调偏移数，X表示向上偏移X个半音
+        /// </summary>
         public int NoteLevel
         {
             get { return MidiPlayer.NoteLevel; }
@@ -180,9 +213,14 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
+        /// <summary>
+        /// midi总时长
+        /// </summary>
         public TimeSpan TotalTime => MidiPlayer.TotalTime;
 
-
+        /// <summary>
+        /// midi演奏当前时间
+        /// </summary>
         public TimeSpan CurrentTime
         {
             get { return MidiPlayer.CurrentTime; }
@@ -193,16 +231,30 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
-
-
+        /// <summary>
+        /// 是否已注册热键
+        /// </summary>
         private bool hotkey;
+        /// <summary>
+        /// 当前程序窗口句柄
+        /// </summary>
         private readonly IntPtr hWnd;
+        /// <summary>
+        /// 当前程序句柄源
+        /// </summary>
         private readonly HwndSource hwndSource;
+        /// <summary>
+        /// midi演奏器实例
+        /// </summary>
         private static MidiPlayer MidiPlayer;
+        /// <summary>
+        /// 计时器，用来更新演奏时间和演奏状态
+        /// </summary>
         private Timer timer;
 
         public MidiViewModel()
         {
+            // 记录 Resource/Midi 目录下的midi文件，按名字排序
             List<string> files;
             if (Directory.Exists("Resource\\Midi"))
             {
@@ -218,48 +270,75 @@ namespace KeqingNiuza.ViewModel
             }
             var infos = files.ConvertAll(x => new MidiFileInfo(x)).OrderBy(x => x.Name);
             MidiFileInfoList = new ObservableCollection<MidiFileInfo>(infos);
-            MidiPlayer = new MidiPlayer();
+            // 初始化midi演奏器，寻找原神或WindsongLyre窗口
+            MidiPlayer = new MidiPlayer(new List<string> { "YuanShen", "GenshinImpact", "WindsongLyre" });
+            // 注册MidiPlayer回调
             MidiPlayer.Started += MidiPlayer_Started;
             MidiPlayer.Stopped += MidiPlayer_Stopped;
             MidiPlayer.Finished += MidiPlayer_Finished;
+            // 设置默认选中为第一个midi文件
             SelectedMidiFile = MidiFileInfoList.First();
             ChangePlayFile(SelectedMidiFile, false);
+            // 获取当前程序窗口句柄
             hWnd = Process.GetCurrentProcess().MainWindowHandle;
+            // 注册热键
             hotkey = Util.RegisterHotKey(hWnd);
+            // 添加热键回调
             hwndSource = HwndSource.FromHwnd(hWnd);
             hwndSource.AddHook(HwndHook);
+            // 刷新midi演奏器状态
             RefreshState();
+            // 启动计时器，间隔1000ms，注册回调
             timer = new Timer(1000);
             timer.AutoReset = true;
             timer.Elapsed += Timer_Elapsed;
         }
 
-
+        /// <summary>
+        /// 移调后，刷新midi的所有track
+        /// </summary>
+        /// <param name="noteLevel"></param>
         public void RefreshMidiFileInfoByNoteLevel(int noteLevel)
         {
             foreach (var item in MidiFileInfoList)
             {
                 item.RefreshTracksByNoteLevel(noteLevel);
             }
+            // 通知选中midi和全局变化
+            //OnPropertyChanged("SelectedMidiFile");
+            //OnPropertyChanged();
             var info = SelectedMidiFile;
             SelectedMidiFile = null;
             SelectedMidiFile = info;
         }
 
-
+        /// <summary>
+        /// 计时器启动，通知演奏时间和演奏状态变化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MidiPlayer_Started(object sender, EventArgs e)
         {
             timer.Start();
             OnPropertyChanged("IsPlaying");
             OnPropertyChanged("CurrentTime");
         }
+        /// <summary>
+        /// 计时器暂停，通知演奏时间和演奏状态变化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MidiPlayer_Stopped(object sender, EventArgs e)
         {
             timer.Stop();
             OnPropertyChanged("IsPlaying");
             OnPropertyChanged("CurrentTime");
         }
-
+        /// <summary>
+        /// 计时器结束，通知演奏时间和演奏状态变化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MidiPlayer_Finished(object sender, EventArgs e)
         {
             timer.Stop();
@@ -267,13 +346,22 @@ namespace KeqingNiuza.ViewModel
             OnPropertyChanged("CurrentTime");
         }
 
+        /// <summary>
+        /// 计时器时间流逝，通知IsPlaying和CurrentTime属性变化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             OnPropertyChanged("IsPlaying");
             OnPropertyChanged("CurrentTime");
         }
 
-
+        /// <summary>
+        /// 更新midi演奏曲目，通知Name、IsPlaying等属性变化
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="autoPlay"></param>
         public void ChangePlayFile(MidiFileInfo info, bool autoPlay = true)
         {
             MidiPlayer.ChangeFileInfo(info, autoPlay);
@@ -287,6 +375,9 @@ namespace KeqingNiuza.ViewModel
             OnPropertyChanged("CurrentTime");
         }
 
+        /// <summary>
+        /// midi音轨变更
+        /// </summary>
         public void ChangeMidiTrack()
         {
             timer.Stop();
@@ -300,7 +391,9 @@ namespace KeqingNiuza.ViewModel
             timer.Start();
         }
 
-
+        /// <summary>
+        /// 检查热键、窗口、管理员等状态，若非正常则显示建议
+        /// </summary>
         public void RefreshState()
         {
             IsAdmin = Util.IsAdmin();
@@ -318,7 +411,7 @@ namespace KeqingNiuza.ViewModel
             }
             if (!CanPlay)
             {
-                StateText = "没有找到原神的窗口";
+                StateText = "没有找到原神或WindsongLyre的窗口";
                 TextBlock_Color = "Red";
                 Button_Restart_Content = "刷新";
                 Tooltip_Content = "请打开游戏后点击刷新";
@@ -332,7 +425,9 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
-
+        /// <summary>
+        /// 刷新管理员（需重启）、原神窗口关联、热键注册状态
+        /// </summary>
         public void RestartOrRefresh()
         {
             if (!IsAdmin)
@@ -361,7 +456,15 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
-
+        /// <summary>
+        /// 程序热键回调，关注以下事件：1000（暂停/播放），1001（上一首），1002（下一首）
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="msg"></param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <param name="handled"></param>
+        /// <returns></returns>
         private IntPtr HwndHook(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             const int WM_KOTKEY = 0x0312;
@@ -403,7 +506,9 @@ namespace KeqingNiuza.ViewModel
             return IntPtr.Zero;
         }
 
-
+        /// <summary>
+        /// 演奏midi列表上一曲
+        /// </summary>
         public void PlayLast()
         {
             if (MidiPlayer.MidiFileInfo == null)
@@ -424,7 +529,9 @@ namespace KeqingNiuza.ViewModel
             }
         }
 
-
+        /// <summary>
+        /// 演奏midi列表下一曲
+        /// </summary>
         public void PlayNext()
         {
             if (MidiPlayer.MidiFileInfo == null)
@@ -444,10 +551,5 @@ namespace KeqingNiuza.ViewModel
                 }
             }
         }
-
-
-
-
-
     }
 }

@@ -22,18 +22,18 @@
             <TextBlock Margin="0,10,0,10"
                        FontSize="20"
                        ><Run Text="刻记牛杂店 "/><Run Text="流浪大地的乐团"/><Run Language="zh-cn" Text="精简"/><Run Text="版"/></TextBlock>
-            <TextBlock Margin="0,5,0,5" Text="这是刻记牛杂店最后的版本，且不再维护" />
-            <TextBlock Margin="0,5,0,5" Text="相比于之前的版本，最终版删掉了更新功能、AppCenter统计功能，新增了通过寻空服务器下载图片和卡池信息的功能。" />
+            <TextBlock Margin="0,5,0,5" ><Run Text="刻记牛杂店原版功能已不再维护，其中抽卡统计分析、米游社签到等功能已失效；"/></TextBlock>
+            <TextBlock Margin="0,5,0,5" ><Run Text="流浪大地的乐团精简版相比于原版，删掉了已不可用的功能，仅保留了风花琴演奏功能，并新增了重载、演奏时速度调节、半音自动升key等功能。"/></TextBlock>
             <StackPanel Margin="0,5,0,5" Orientation="Horizontal"/>
             <StackPanel Margin="0,5,0,5" Orientation="Horizontal"/>
             <!--<TextBlock Margin="0,10,0,10" FontSize="20" Text="使用手册" />
             <TextBlock Margin="0,5,0,5" Text="使用手册已长时间未更新，但大部分问题都能在使用手册中找到答案" />-->
 
         </StackPanel>
-        <Image Width="256"
+        <Image Width="300"
                Margin="0,0,20,0"
                HorizontalAlignment="Right"
                VerticalAlignment="Bottom"
-               Source="/resource/embed/logo_nbg.png" />
+               Source="/resource/embed/logo_nbg.png" Height="300" />
     </Grid>
 </UserControl>

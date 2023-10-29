@@ -45,15 +45,15 @@ namespace KeqingNiuza.Core.Midi
 
         public static bool RegisterHotKey(IntPtr hWnd)
         {
-            if (!User32.RegisterHotKey(hWnd, 1000, (uint)(MOD_CONTROL | MOD_SHIFT | MOD_NOREPEAT), (uint)VK_G))
+            if (!User32.RegisterHotKey(hWnd, 1000, (uint)(MOD_CONTROL | MOD_SHIFT | MOD_NOREPEAT), (uint)VK_RETURN))
             {
                 return false;
             }
-            if (!User32.RegisterHotKey(hWnd, 1001, (uint)(MOD_CONTROL | MOD_SHIFT | MOD_NOREPEAT), (uint)VK_LEFT))
+            if (!User32.RegisterHotKey(hWnd, 1001, (uint)(MOD_CONTROL | MOD_SHIFT | MOD_NOREPEAT), (uint)VK_OEM_COMMA))
             {
                 return false;
             }
-            if (!User32.RegisterHotKey(hWnd, 1002, (uint)(MOD_CONTROL | MOD_SHIFT | MOD_NOREPEAT), (uint)VK_RIGHT))
+            if (!User32.RegisterHotKey(hWnd, 1002, (uint)(MOD_CONTROL | MOD_SHIFT | MOD_NOREPEAT), (uint)VK_OEM_PERIOD))
             {
                 return false;
             }

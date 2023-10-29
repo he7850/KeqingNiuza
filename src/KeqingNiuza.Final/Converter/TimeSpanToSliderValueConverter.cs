@@ -8,7 +8,6 @@ namespace KeqingNiuza.Converter
     {
         public object Convert(object value, Type TargetType, object parameter, CultureInfo culture)
         {
-
             var time = (TimeSpan)value;
             return time.TotalMilliseconds;
         }

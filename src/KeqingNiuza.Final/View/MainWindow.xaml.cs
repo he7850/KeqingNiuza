@@ -84,6 +84,10 @@ namespace KeqingNiuza.View
             var tag = radioButton.Tag as string;
             ViewModel.ChangeViewContent(tag);
         }
+        private void RadioButton_Reload_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ReloadViewContent();
+        }
 
         private void Window_Main_StateChanged(object sender, EventArgs e)
         {
@@ -100,20 +104,6 @@ namespace KeqingNiuza.View
                     break;
                 default:
                     break;
-            }
-        }
-
-
-        private void SideMenu_Manual_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Process.Start(@".\使用手册.pdf");
-            }
-            catch (Exception ex)
-            {
-                Log.OutputLog(LogType.Warning, "Open manual", ex);
-                Growl.Warning(ex.Message);
             }
         }
 

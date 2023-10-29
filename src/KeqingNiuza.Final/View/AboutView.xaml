@@ -30,8 +30,8 @@
                            FontSize="20"
                            Text="关于" />
                 <TextBlock x:Name="TextBlock_Version" Margin="0,5,0,5" />
-                <TextBlock Margin="0,5,0,5" ><Run Text="本软件以MIT协议开源，"/><Run Text="仅保留并"/><Run Text="继续维护"/><Run Language="zh-cn" Text="弹琴"/><Run Text="功能"/><Run Text="；"/></TextBlock>
-                <TextBlock Margin="0,5,0,5" ><Run Text="相比于之前的版本，"/><Run Text="流浪大地的乐团精简版新增了速度调节和半音自动升key特性"/><Run Text="。"/></TextBlock>
+                <TextBlock Margin="0,5,0,5" ><Run Text="本软件以MIT协议开源；"/></TextBlock>
+                <TextBlock Margin="0,5,0,5" ><Run Text="相比于之前的版本，仅保留并继续维护流浪大地的乐团弹琴功能。"/></TextBlock>
                 <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
                     <TextBlock Text="项目地址：" />
                     <TextBlock>
