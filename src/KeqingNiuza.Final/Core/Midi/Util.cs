@@ -83,6 +83,14 @@ namespace KeqingNiuza.Core.Midi
             {
                 return false;
             }
+            if (!User32.UnregisterHotKey(hWnd, 1003))
+            {
+                return false;
+            }
+            if (!User32.UnregisterHotKey(hWnd, 1004))
+            {
+                return false;
+            }
             return true;
         }
 
