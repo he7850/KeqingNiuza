@@ -503,6 +503,16 @@ namespace KeqingNiuza.ViewModel
                         PlayNext();
                         handled = true;
                         break;
+                    // 速度加2%
+                    case 1003:
+                        Speed += 0.02;
+                        handled = true;
+                        break;
+                    // 速度减2%
+                    case 1004:
+                        Speed -= 0.02;
+                        handled = true;
+                        break;
                 }
             }
             return IntPtr.Zero;

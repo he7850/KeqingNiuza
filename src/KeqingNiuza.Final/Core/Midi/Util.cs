@@ -57,6 +57,14 @@ namespace KeqingNiuza.Core.Midi
             {
                 return false;
             }
+            if (!User32.RegisterHotKey(hWnd, 1003, (uint)(MOD_CONTROL | MOD_NOREPEAT), (uint)VK_OEM_PLUS))
+            {
+                return false;
+            }
+            if (!User32.RegisterHotKey(hWnd, 1004, (uint)(MOD_CONTROL | MOD_NOREPEAT), (uint)VK_OEM_MINUS))
+            {
+                return false;
+            }
             return true;
         }
 
