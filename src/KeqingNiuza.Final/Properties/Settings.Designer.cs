@@ -34,29 +34,5 @@ namespace KeqingNiuza.Properties {
                 this["IsWindowMaximized"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool IsCorrectOrder {
-            get {
-                return ((bool)(this["IsCorrectOrder"]));
-            }
-            set {
-                this["IsCorrectOrder"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool IsGenshinStartTrigger {
-            get {
-                return ((bool)(this["IsGenshinStartTrigger"]));
-            }
-            set {
-                this["IsGenshinStartTrigger"] = value;
-            }
-        }
     }
 }
