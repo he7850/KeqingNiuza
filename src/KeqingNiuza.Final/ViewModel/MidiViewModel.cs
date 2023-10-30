@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Timers;
+using System.Windows.Input;
 using System.Windows.Interop;
 using HandyControl.Controls;
 using KeqingNiuza.Core.Midi;
@@ -254,6 +256,46 @@ namespace KeqingNiuza.ViewModel
         /// </summary>
         private Timer timer;
 
+        private class GenshinMusicOrderComparer : IComparer<string>
+        {
+            int GetRegionOrder(string musicName)
+            {
+                if (musicName.StartsWith("原神"))
+                    return 0;
+                if (musicName.StartsWith("提瓦特"))
+                    return 1;
+                if (musicName.StartsWith("角色主题"))
+                    return 2;
+                if (musicName.StartsWith("周本战斗"))
+                    return 3;
+                if (musicName.StartsWith("蒙德"))
+                    return 10;
+                if (musicName.StartsWith("龙脊雪山"))
+                    return 11;
+                if (musicName.StartsWith("金苹果群岛"))
+                    return 12;
+                if (musicName.StartsWith("璃月"))
+                    return 20;
+                if (musicName.StartsWith("稻妻"))
+                    return 30;
+                if (musicName.StartsWith("须弥"))
+                    return 40;
+                if (musicName.StartsWith("枫丹"))
+                    return 50;
+                else
+                    return 60;
+            }
+            int IComparer<string>.Compare(string s1, string s2)
+            {
+                int order1 = GetRegionOrder(s1);
+                int order2 = GetRegionOrder(s2);
+
+                if (order1 != order2)
+                    return order1 - order2;
+                else
+                    return string.Compare(s1, s2);
+            }
+        }
         public MidiViewModel()
         {
             // 记录 Resource/Midi 目录下的midi文件，按名字排序
@@ -270,7 +312,8 @@ namespace KeqingNiuza.ViewModel
             {
                 throw new Exception("Resource\\Midi 文件夹内没有Midi文件");
             }
-            var infos = files.ConvertAll(x => new MidiFileInfo(x)).OrderBy(x => x.Name);
+            GenshinMusicOrderComparer comparer = new GenshinMusicOrderComparer();
+            var infos = files.ConvertAll(x => new MidiFileInfo(x)).OrderBy(x => x.Name, comparer);
             MidiFileInfoList = new ObservableCollection<MidiFileInfo>(infos);
             // 初始化midi演奏器，寻找原神或WindsongLyre窗口
             MidiPlayer = new MidiPlayer(new List<string> { "YuanShen", "GenshinImpact", "WindsongLyre" });
